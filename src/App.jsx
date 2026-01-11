@@ -5,7 +5,17 @@ function App() {
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState("");
 
+  const [solvedCount, setSolvedCount] = useState(0);
+  const [loading, setLoading] = useState(false);
+
+
   const fetchUser = async () => {
+
+    if (!handle.trim()) {
+  setError("Please enter a Codeforces handle");
+  return;
+  }
+
     setError("");
     setUserData(null);
 
@@ -27,34 +37,83 @@ function App() {
       setError("Something went wrong");
     }
   };
+   
 
-  return (
-    <div>
-      <h1>Codeforces Analytics Dashboard</h1>
 
-      <input
-        type="text"
-        placeholder="Enter Codeforces handle"
-        value={handle}
-        onChange={(e) => setHandle(e.target.value)}
-      />
+  const fetchSolved = async () => {
 
-      <button onClick={fetchUser}>Analyze</button>
+    if (!handle.trim()) {
+    return;
+ }
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
+  setLoading(true);
+  setSolvedCount(0);
+  setError("");
 
-{userData && (
+  try {
+    const res = await fetch(
+      `https://codeforces.com/api/user.status?handle=${handle}`
+    );
+
+    const data = await res.json();
+
+    if (data.status === "FAILED") {
+      setError("Could not fetch submissions");
+      setLoading(false);
+      return;
+    }
+
+    const solvedSet = new Set();
+
+    data.result.forEach((sub) => {
+      if (sub.verdict === "OK") {
+        solvedSet.add(sub.problem.name);
+      }
+    });
+
+    setSolvedCount(solvedSet.size);
+  } catch (err) {
+    setError("Something went wrong");
+  }
+
+  setLoading(false);
+};
+
+
+ return (
   <div>
-    <p><b>Handle:</b> {userData.handle}</p>
-    <p><b>Rating:</b> {userData.rating ?? "Unrated"}</p>
-    <p><b>Max Rating:</b> {userData.maxRating ?? "Unrated"}</p>
-    <p><b>Rank:</b> {userData.rank ?? "Unranked"}</p>
+    <h1>Codeforces Analytics Dashboard</h1>
+
+    <input
+      type="text"
+      placeholder="Enter Codeforces handle"
+      value={handle}
+      onChange={(e) => setHandle(e.target.value)}
+    />
+
+    <button onClick={() => { fetchUser(); fetchSolved(); }}>
+      Analyze
+    </button>
+
+    {error && <p style={{ color: "red" }}>{error}</p>}
+
+    {userData && (
+      <div>
+        <p><b>Handle:</b> {userData.handle}</p>
+        <p><b>Rating:</b> {userData.rating ?? "Unrated"}</p>
+        <p><b>Max Rating:</b> {userData.maxRating ?? "Unrated"}</p>
+        <p><b>Rank:</b> {userData.rank ?? "Unranked"}</p>
+      </div>
+    )}
+
+    {loading && <p>Loading solved problems...</p>}
+
+    {!loading && solvedCount > 0 && (
+      <p><b>Total Solved Problems:</b> {solvedCount}</p>
+    )}
   </div>
-)}
+);
 
-
-    </div>
-  );
 }
 
 export default App;
