@@ -7,6 +7,8 @@ function App() {
 
   const [solvedCount, setSolvedCount] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [ratingMap, setRatingMap] = useState({});
+
 
 
   const fetchUser = async () => {
@@ -63,15 +65,33 @@ function App() {
       return;
     }
 
-    const solvedSet = new Set();
+const solvedSet = new Set();
+const ratingCount = {};
 
-    data.result.forEach((sub) => {
-      if (sub.verdict === "OK") {
-        solvedSet.add(sub.problem.name);
+data.result.forEach((sub) => {
+  if (sub.verdict === "OK") {
+    const name = sub.problem.name;
+    const rating = sub.problem.rating;
+
+    if (!rating) return;   
+
+    if (!solvedSet.has(name)) {
+      solvedSet.add(name);
+
+      if (ratingCount[rating]) {
+        ratingCount[rating]++;
+      } else {
+        ratingCount[rating] = 1;
       }
-    });
+    }
+  }
+}
+);
 
-    setSolvedCount(solvedSet.size);
+setSolvedCount(solvedSet.size);
+setRatingMap(ratingCount);
+
+
   } catch (err) {
     setError("Something went wrong");
   }
@@ -111,6 +131,21 @@ function App() {
     {!loading && solvedCount > 0 && (
       <p><b>Total Solved Problems:</b> {solvedCount}</p>
     )}
+
+{Object.keys(ratingMap).length > 0 && (
+  <div>
+    <h3>Solved by Rating</h3>
+
+    {Object.entries(ratingMap)
+      .sort((a, b) => a[0] - b[0])
+      .map(([rating, count]) => (
+        <p key={rating}>
+          {rating} : {count}
+        </p>
+      ))}
+  </div>
+)}
+
   </div>
 );
 
