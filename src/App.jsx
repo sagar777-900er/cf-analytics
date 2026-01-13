@@ -8,6 +8,8 @@ function App() {
   const [solvedCount, setSolvedCount] = useState(0);
   const [loading, setLoading] = useState(false);
   const [ratingMap, setRatingMap] = useState({});
+  const [bucketMap, setBucketMap] = useState({});
+
 
 
 
@@ -92,6 +94,27 @@ setSolvedCount(solvedSet.size);
 setRatingMap(ratingCount);
 
 
+const buckets = {};
+
+Object.entries(ratingCount).forEach(([rating, count]) => {
+  const r = Number(rating);
+
+  const bucketStart = Math.floor(r / 200) * 200;
+  const bucketEnd = bucketStart + 200;
+
+  const key = `${bucketStart}-${bucketEnd}`;
+
+  if (buckets[key]) {
+    buckets[key] += count;
+  } else {
+    buckets[key] = count;
+  }
+});
+
+setBucketMap(buckets);
+
+
+
   } catch (err) {
     setError("Something went wrong");
   }
@@ -145,6 +168,29 @@ setRatingMap(ratingCount);
       ))}
   </div>
 )}
+
+
+
+
+{Object.keys(bucketMap).length > 0 && (
+  <div>
+    <h3>Solved by Rating Buckets</h3>
+
+    {Object.entries(bucketMap)
+      .sort((a, b) => {
+        const aStart = Number(a[0].split("-")[0]);
+        const bStart = Number(b[0].split("-")[0]);
+        return aStart - bStart;
+      })
+      .map(([bucket, count]) => (
+        <p key={bucket}>
+          {bucket} : {count}
+        </p>
+      ))}
+  </div>
+)}
+
+
 
   </div>
 );
