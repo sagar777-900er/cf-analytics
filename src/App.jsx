@@ -44,21 +44,63 @@ function App() {
    
 
 
-  const fetchSolved = async () => {
 
-    if (!handle.trim()) {
-    return;
- }
+const buildRatingMap = (submissions) => {
+  const solvedSet = new Set();
+  const ratingCount = {};
+
+  submissions.forEach((sub) => {
+    if (sub.verdict === "OK") {
+      const name = sub.problem.name;
+      const rating = sub.problem.rating;
+
+      if (!rating) return;
+
+      if (!solvedSet.has(name)) {
+        solvedSet.add(name);
+        ratingCount[rating] = (ratingCount[rating] || 0) + 1;
+      }
+    }
+  });
+
+  return {
+    solvedCount: solvedSet.size,
+    ratingCount
+  };
+};
+
+
+
+
+const buildBucketMap = (ratingMap) => {
+  const buckets = {};
+
+  Object.entries(ratingMap).forEach(([rating, count]) => {
+    const r = Number(rating);
+    const start = Math.floor(r / 200) * 200;
+    const end = start + 200;
+    const key = `${start}-${end}`;
+
+    buckets[key] = (buckets[key] || 0) + count;
+  });
+
+  return buckets;
+};
+
+
+
+
+
+ const fetchSolved = async () => {
+  if (!handle.trim()) return;
 
   setLoading(true);
-  setSolvedCount(0);
   setError("");
 
   try {
     const res = await fetch(
       `https://codeforces.com/api/user.status?handle=${handle}`
     );
-
     const data = await res.json();
 
     if (data.status === "FAILED") {
@@ -67,54 +109,12 @@ function App() {
       return;
     }
 
-const solvedSet = new Set();
-const ratingCount = {};
+    const { solvedCount, ratingCount } = buildRatingMap(data.result);
+    const buckets = buildBucketMap(ratingCount);
 
-data.result.forEach((sub) => {
-  if (sub.verdict === "OK") {
-    const name = sub.problem.name;
-    const rating = sub.problem.rating;
-
-    if (!rating) return;   
-
-    if (!solvedSet.has(name)) {
-      solvedSet.add(name);
-
-      if (ratingCount[rating]) {
-        ratingCount[rating]++;
-      } else {
-        ratingCount[rating] = 1;
-      }
-    }
-  }
-}
-);
-
-setSolvedCount(solvedSet.size);
-setRatingMap(ratingCount);
-
-
-const buckets = {};
-
-Object.entries(ratingCount).forEach(([rating, count]) => {
-  const r = Number(rating);
-
-  const bucketStart = Math.floor(r / 200) * 200;
-  const bucketEnd = bucketStart + 200;
-
-  const key = `${bucketStart}-${bucketEnd}`;
-
-  if (buckets[key]) {
-    buckets[key] += count;
-  } else {
-    buckets[key] = count;
-  }
-});
-
-setBucketMap(buckets);
-
-
-
+    setSolvedCount(solvedCount);
+    setRatingMap(ratingCount);
+    setBucketMap(buckets);
   } catch (err) {
     setError("Something went wrong");
   }
@@ -123,10 +123,15 @@ setBucketMap(buckets);
 };
 
 
+//return  //////
+
+
+
  return (
   <div>
     <h1>Codeforces Analytics Dashboard</h1>
-
+    
+    <div style={{ marginBottom: "12px" }}></div>
     <input
       type="text"
       placeholder="Enter Codeforces handle"
@@ -142,12 +147,25 @@ setBucketMap(buckets);
 
     {userData && (
       <div>
+        <hr />
+        <h2>User Info</h2>
         <p><b>Handle:</b> {userData.handle}</p>
         <p><b>Rating:</b> {userData.rating ?? "Unrated"}</p>
         <p><b>Max Rating:</b> {userData.maxRating ?? "Unrated"}</p>
         <p><b>Rank:</b> {userData.rank ?? "Unranked"}</p>
       </div>
     )}
+   
+  
+  
+  
+   {(solvedCount > 0 || Object.keys(ratingMap).length > 0) && (
+  <>
+    <hr />
+    <h2>Analytics</h2>
+  </>
+)}
+
 
     {loading && <p>Loading solved problems...</p>}
 
