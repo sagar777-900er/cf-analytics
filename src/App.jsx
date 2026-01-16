@@ -4,11 +4,12 @@ function App() {
   const [handle, setHandle] = useState("");
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState("");
-
   const [solvedCount, setSolvedCount] = useState(0);
   const [loading, setLoading] = useState(false);
   const [ratingMap, setRatingMap] = useState({});
   const [bucketMap, setBucketMap] = useState({});
+  const [bestRating, setBestRating] = useState(null);
+
 
 
 
@@ -72,6 +73,7 @@ const buildRatingMap = (submissions) => {
 
 
 
+
 const buildBucketMap = (ratingMap) => {
   const buckets = {};
 
@@ -112,9 +114,21 @@ const buildBucketMap = (ratingMap) => {
     const { solvedCount, ratingCount } = buildRatingMap(data.result);
     const buckets = buildBucketMap(ratingCount);
 
+
+    let maxRating = null;
+    Object.keys(ratingCount).forEach((r) => {
+      const rating = Number(r);
+      if (maxRating === null || rating > maxRating) {
+        maxRating = rating;
+      }
+    });
+
+
     setSolvedCount(solvedCount);
     setRatingMap(ratingCount);
     setBucketMap(buckets);
+    setBestRating(maxRating);
+
   } catch (err) {
     setError("Something went wrong");
   }
@@ -187,6 +201,12 @@ const buildBucketMap = (ratingMap) => {
   </div>
 )}
 
+
+{bestRating && (
+  <p>
+    <b>Highest Rated Problem Solved:</b> {bestRating}
+  </p>
+)}
 
 
 
