@@ -146,16 +146,28 @@ const buildBucketMap = (ratingMap) => {
     <h1>Codeforces Analytics Dashboard</h1>
     
     <div style={{ marginBottom: "12px" }}></div>
-    <input
-      type="text"
-      placeholder="Enter Codeforces handle"
-      value={handle}
-      onChange={(e) => setHandle(e.target.value)}
-    />
 
-    <button onClick={() => { fetchUser(); fetchSolved(); }}>
-      Analyze
-    </button>
+
+   <form
+  onSubmit={(e) => {
+    e.preventDefault(); 
+    fetchUser();
+    fetchSolved();
+  }}
+>
+  <input
+    type="text"
+    placeholder="Enter Codeforces handle"
+    value={handle}
+    onChange={(e) => setHandle(e.target.value)}
+  />
+
+  <button type="submit">
+    Analyze
+  </button>
+</form>
+
+
 
     {error && <p style={{ color: "red" }}>{error}</p>}
 
