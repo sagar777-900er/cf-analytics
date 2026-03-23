@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: cf-analytics-api
+    runtime: node
+    buildCommand: npm install
+    startCommand: node server.js
+    rootDir: server
+    envVars:
+      - key: PORT
+        value: 3001
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_KEY
+        sync: false
