@@ -8,10 +8,10 @@ function CustomTooltip({ active, payload }) {
   if (!active || !payload?.length) return null;
   const d = payload[0].payload;
   return (
-    <div className="glass-strong rounded-xl px-4 py-2.5 shadow-2xl">
-      <p className="text-xs font-semibold">{d.tag}</p>
-      <p className="text-lg font-bold font-mono text-[var(--color-accent)]">{d.count}</p>
-      <p className="text-[10px] text-[var(--color-text-muted)]">problems solved</p>
+    <div className="glass-card rounded-xl px-4 py-2.5 shadow-2xl">
+      <p className="text-xs font-semibold text-white">{d.tag}</p>
+      <p className="text-lg font-bold font-mono text-[#b026ff]">{d.count}</p>
+      <p className="text-[10px] text-slate-400">problems solved</p>
     </div>
   );
 }
@@ -22,14 +22,14 @@ export default function TagMastery({ tagStats }) {
   const maxCount = Math.max(...tagStats.map((t) => t.count));
 
   return (
-    <div className="bento-card animate-fade-in animate-fade-in-delay-3">
+    <div className="glass-card animate-fade-in animate-fade-in-delay-3 p-5">
       <div className="flex items-center gap-2 mb-5">
-        <div className="w-8 h-8 rounded-lg bg-[rgba(52,211,153,0.1)] flex items-center justify-center">
-          <Target className="w-4 h-4 text-[var(--color-green)]" />
+        <div className="w-8 h-8 rounded-lg bg-[rgba(176,38,255,0.1)] flex items-center justify-center glow-purple">
+          <Target className="w-4 h-4 text-[#b026ff]" />
         </div>
         <div>
-          <h3 className="text-sm font-semibold">Tag Mastery</h3>
-          <p className="text-xs text-[var(--color-text-muted)]">Top {tagStats.length} tags</p>
+          <h3 className="text-sm font-semibold text-white">Tag Mastery</h3>
+          <p className="text-xs text-slate-400">Top {tagStats.length} tags</p>
         </div>
       </div>
 
@@ -39,7 +39,7 @@ export default function TagMastery({ tagStats }) {
             <PolarGrid stroke="rgba(255,255,255,0.06)" />
             <PolarAngleAxis
               dataKey="tag"
-              tick={{ fill: 'var(--color-text-muted)', fontSize: 9 }}
+              tick={{ fill: '#94a3b8', fontSize: 9 }}
             />
             <PolarRadiusAxis
               domain={[0, maxCount]}
@@ -50,8 +50,8 @@ export default function TagMastery({ tagStats }) {
             <Radar
               name="Problems"
               dataKey="count"
-              stroke="var(--color-cyan)"
-              fill="var(--color-cyan)"
+              stroke="#b026ff"
+              fill="#b026ff"
               fillOpacity={0.15}
               strokeWidth={2}
             />
@@ -64,9 +64,9 @@ export default function TagMastery({ tagStats }) {
         {tagStats.map((t) => (
           <span
             key={t.tag}
-            className="px-2.5 py-1 rounded-lg text-[10px] font-mono font-medium bg-[var(--color-bg-secondary)] text-[var(--color-text-secondary)] border border-[var(--color-border)]"
+            className="px-2.5 py-1 rounded-lg text-[10px] font-mono font-medium bg-[#1e293b]/50 text-slate-300 border border-white/10"
           >
-            {t.tag} <span className="text-[var(--color-accent)]">{t.count}</span>
+            {t.tag} <span className="text-[#b026ff]">{t.count}</span>
           </span>
         ))}
       </div>

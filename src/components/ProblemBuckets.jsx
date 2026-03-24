@@ -19,10 +19,10 @@ function CustomTooltip({ active, payload }) {
   if (!active || !payload?.length) return null;
   const d = payload[0].payload;
   return (
-    <div className="glass-strong rounded-xl px-4 py-2.5 shadow-2xl">
-      <p className="text-xs font-semibold font-mono">Rating {d.range}</p>
-      <p className="text-lg font-bold font-mono text-[var(--color-accent)]">
-        {d.count} <span className="text-xs font-normal text-[var(--color-text-muted)]">solved</span>
+    <div className="glass-card rounded-xl px-4 py-2.5 shadow-2xl">
+      <p className="text-xs font-semibold font-mono text-white">Rating {d.range}</p>
+      <p className="text-lg font-bold font-mono text-[#ff007f]">
+        {d.count} <span className="text-xs font-normal text-slate-400">solved</span>
       </p>
     </div>
   );
@@ -32,14 +32,14 @@ export default function ProblemBuckets({ buckets }) {
   if (!buckets?.length) return null;
 
   return (
-    <div className="bento-card animate-fade-in animate-fade-in-delay-4">
+    <div className="glass-card animate-fade-in animate-fade-in-delay-4 p-5">
       <div className="flex items-center gap-2 mb-5">
-        <div className="w-8 h-8 rounded-lg bg-[rgba(244,114,182,0.1)] flex items-center justify-center">
-          <BarChart3 className="w-4 h-4 text-[var(--color-pink)]" />
+        <div className="w-8 h-8 rounded-lg bg-[rgba(255,0,127,0.1)] flex items-center justify-center glow-pink">
+          <BarChart3 className="w-4 h-4 text-[#ff007f]" />
         </div>
         <div>
-          <h3 className="text-sm font-semibold">Rating Distribution</h3>
-          <p className="text-xs text-[var(--color-text-muted)]">Solved by rating bucket</p>
+          <h3 className="text-sm font-semibold text-white">Rating Distribution</h3>
+          <p className="text-xs text-slate-400">Solved by rating bucket</p>
         </div>
       </div>
 
@@ -49,7 +49,7 @@ export default function ProblemBuckets({ buckets }) {
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
             <XAxis
               dataKey="range"
-              tick={{ fill: 'var(--color-text-muted)', fontSize: 9 }}
+              tick={{ fill: '#94a3b8', fontSize: 9 }}
               axisLine={{ stroke: 'rgba(255,255,255,0.06)' }}
               tickLine={false}
               angle={-25}
@@ -57,14 +57,14 @@ export default function ProblemBuckets({ buckets }) {
               height={50}
             />
             <YAxis
-              tick={{ fill: 'var(--color-text-muted)', fontSize: 10 }}
+              tick={{ fill: '#94a3b8', fontSize: 10 }}
               axisLine={{ stroke: 'rgba(255,255,255,0.06)' }}
               tickLine={false}
             />
-            <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(255,255,255,0.03)' }} />
+            <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(255,255,255,0.05)' }} />
             <Bar dataKey="count" radius={[6, 6, 0, 0]} maxBarSize={40}>
               {buckets.map((entry, i) => (
-                <Cell key={entry.range} fill={BAR_COLORS[i] || '#7c5cfc'} fillOpacity={0.75} />
+                <Cell key={entry.range} fill={BAR_COLORS[i] || '#ff007f'} fillOpacity={0.8} />
               ))}
             </Bar>
           </BarChart>

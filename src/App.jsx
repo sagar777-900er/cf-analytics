@@ -6,31 +6,48 @@ import TrainingRange from './components/TrainingRange';
 import ProblemBuckets from './components/ProblemBuckets';
 import Watchlist from './components/Watchlist';
 import LoadingSpinner from './components/LoadingSpinner';
+import SWOTAnalysis from './components/SWOTAnalysis';
+import HeadToHead from './components/HeadToHead';
 import { useCodeforcesData } from './hooks/useCodeforcesData';
-import { Zap, Code2, BarChart3, Target } from 'lucide-react';
+import { useH2HData } from './hooks/useH2HData';
+import { Zap, Code2, BarChart3, Target, Users } from 'lucide-react';
+import { useState } from 'react';
 
 function App() {
+  const [isH2HMode, setIsH2HMode] = useState(false);
+
+  // Single User Data
   const {
-    userData,
-    submissions,
-    ratingHistory,
-    training,
-    loading,
-    error,
-    currentHandle,
-    analyze,
+    userData, submissions, ratingHistory, training,
+    loading: loadingSingle, error: errorSingle, currentHandle, analyze
   } = useCodeforcesData();
 
-  const hasData = userData || submissions || ratingHistory;
+  // Head to Head Data
+  const {
+    dataUser1, dataUser2,
+    loading: loadingH2H, error: errorH2H, analyzeH2H
+  } = useH2HData();
+
+  const loading = isH2HMode ? loadingH2H : loadingSingle;
+  const error = isH2HMode ? errorH2H : errorSingle;
+  const hasDataSingle = userData || submissions || ratingHistory;
+  const hasDataH2H = dataUser1 && dataUser2;
+  const hasData = isH2HMode ? hasDataH2H : hasDataSingle;
 
   return (
     <div className="min-h-screen">
-      <Header onAnalyze={analyze} loading={loading} />
+      <Header 
+        onAnalyze={analyze} 
+        onAnalyzeH2H={analyzeH2H} 
+        loading={loading} 
+        isH2HMode={isH2HMode} 
+        setIsH2HMode={setIsH2HMode} 
+      />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Error */}
         {error && (
-          <div className="mb-6 px-4 py-3 rounded-xl bg-[rgba(248,113,113,0.08)] border border-[rgba(248,113,113,0.15)] text-[var(--color-red)] text-sm font-medium animate-fade-in">
+          <div className="mb-6 px-4 py-3 rounded-xl bg-red-900/20 border border-red-500/30 text-red-400 text-sm font-medium animate-fade-in glass-card">
             {error}
           </div>
         )}
@@ -42,7 +59,7 @@ function App() {
         {!loading && !hasData && !error && (
           <div className="flex flex-col items-center justify-center py-32 gap-6 text-center">
             <div className="relative">
-              <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[var(--color-accent)] to-[var(--color-cyan)] flex items-center justify-center shadow-lg glow-purple">
+              <div className="w-20 h-20 rounded-2xl bg-gradient flex items-center justify-center shadow-lg glow-purple">
                 <Zap className="w-10 h-10 text-white" />
               </div>
             </div>
@@ -50,52 +67,75 @@ function App() {
               <h1 className="text-3xl sm:text-4xl font-bold tracking-tight mb-3">
                 <span className="gradient-text">CF Analytics</span>
               </h1>
-              <p className="text-[var(--color-text-secondary)] max-w-md text-sm leading-relaxed">
+              <p className="text-slate-400 max-w-md text-sm leading-relaxed">
                 Enter a Codeforces handle above to visualize your competitive programming journey with beautiful charts and insights.
               </p>
             </div>
-            <div className="flex items-center gap-6 text-[var(--color-text-muted)] text-xs">
+            <div className="flex items-center gap-6 text-slate-500 text-xs">
               <span className="flex items-center gap-1.5"><BarChart3 className="w-3.5 h-3.5" /> Rating Charts</span>
               <span className="flex items-center gap-1.5"><Target className="w-3.5 h-3.5" /> Tag Analysis</span>
               <span className="flex items-center gap-1.5"><Code2 className="w-3.5 h-3.5" /> Smart Training</span>
+              <span className="flex flex-col items-center gap-1">
+                <button
+                  onClick={() => setIsH2HMode(true)}
+                  className="px-4 py-2 rounded-xl bg-[#ff007f]/10 text-[#ff007f] font-semibold border border-[#ff007f]/30 hover:bg-[#ff007f]/20 transition-all text-xs"
+                >
+                  <Users className="w-4 h-4 inline mr-2" />
+                  Try Head-to-Head Mode
+                </button>
+              </span>
             </div>
           </div>
         )}
 
-        {/* Dashboard */}
+        {/* Dashboard / H2H View */}
         {!loading && hasData && (
           <div className="space-y-6">
-            {/* User Stats */}
-            <UserStats userData={userData} submissions={submissions} />
+            {isH2HMode ? (
+              <HeadToHead dataUser1={dataUser1} dataUser2={dataUser2} />
+            ) : (
+              <>
+                {/* User Stats */}
+                <UserStats userData={userData} submissions={submissions} />
 
-            {/* Charts Row */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-              <RatingChart ratingHistory={ratingHistory} />
-              <TagMastery tagStats={submissions?.tagStats} />
-            </div>
+                {/* SWOT Analysis */}
+                <SWOTAnalysis 
+                  userData={userData} 
+                  submissions={submissions} 
+                  training={training} 
+                  ratingHistory={ratingHistory} 
+                />
 
-            {/* Bottom Row */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-              <div className="lg:col-span-2">
-                <ProblemBuckets buckets={submissions?.buckets} />
-              </div>
-              <div className="space-y-4">
-                <TrainingRange training={training} />
-                <Watchlist currentHandle={currentHandle} onAnalyze={analyze} />
-              </div>
-            </div>
+                {/* Charts Row */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                  <RatingChart ratingHistory={ratingHistory} />
+                  <TagMastery tagStats={submissions?.tagStats} />
+                </div>
+
+                {/* Bottom Row */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                  <div className="lg:col-span-2">
+                    <ProblemBuckets buckets={submissions?.buckets} />
+                  </div>
+                  <div className="space-y-4">
+                    <TrainingRange training={training} />
+                    <Watchlist currentHandle={currentHandle} onAnalyze={analyze} />
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         )}
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-[var(--color-border)] mt-16">
+      <footer className="border-t border-white/10 mt-16 glass-card rounded-none border-b-0 border-l-0 border-r-0">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex items-center justify-between">
-          <p className="text-xs text-[var(--color-text-muted)]">
+          <p className="text-xs text-slate-500">
             CF Analytics — Built with React, Recharts &amp; Tailwind
           </p>
-          <p className="text-xs text-[var(--color-text-muted)]">
-            Data from <a href="https://codeforces.com/apiHelp" target="_blank" rel="noopener noreferrer" className="text-[var(--color-accent)] hover:underline">Codeforces API</a>
+          <p className="text-xs text-slate-500">
+            Data from <a href="https://codeforces.com/apiHelp" target="_blank" rel="noopener noreferrer" className="text-[var(--color-neon-cyan)] hover:text-white transition-colors">Codeforces API</a>
           </p>
         </div>
       </footer>

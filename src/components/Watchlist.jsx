@@ -58,15 +58,15 @@ export default function Watchlist({ currentHandle, onAnalyze }) {
   if (disabled && !watchlist.length) return null;
 
   return (
-    <div className="bento-card animate-fade-in">
+    <div className="glass-card animate-fade-in p-5">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg bg-[rgba(251,146,60,0.1)] flex items-center justify-center">
-            <Star className="w-4 h-4 text-[var(--color-orange)]" />
+          <div className="w-8 h-8 rounded-lg bg-[rgba(249,115,22,0.1)] flex items-center justify-center glow-orange">
+            <Star className="w-4 h-4 text-[#f97316]" />
           </div>
           <div>
-            <h3 className="text-sm font-semibold">Watchlist</h3>
-            <p className="text-xs text-[var(--color-text-muted)]">
+            <h3 className="text-sm font-semibold text-white">Watchlist</h3>
+            <p className="text-xs text-slate-400">
               {disabled ? 'Supabase not configured' : `${watchlist.length} handles`}
             </p>
           </div>
@@ -78,9 +78,9 @@ export default function Watchlist({ currentHandle, onAnalyze }) {
             disabled={starring}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all border"
             style={{
-              color: isStarred ? 'var(--color-orange)' : 'var(--color-text-secondary)',
-              borderColor: isStarred ? 'rgba(251,146,60,0.2)' : 'var(--color-border)',
-              backgroundColor: isStarred ? 'rgba(251,146,60,0.1)' : 'transparent',
+              color: isStarred ? '#f97316' : '#cbd5e1',
+              borderColor: isStarred ? 'rgba(249,115,22,0.2)' : 'rgba(255,255,255,0.1)',
+              backgroundColor: isStarred ? 'rgba(249,115,22,0.1)' : 'transparent',
             }}
           >
             {isStarred ? <StarOff className="w-3.5 h-3.5" /> : <Star className="w-3.5 h-3.5" />}
@@ -90,27 +90,27 @@ export default function Watchlist({ currentHandle, onAnalyze }) {
       </div>
 
       {disabled ? (
-        <p className="text-xs text-[var(--color-text-muted)] bg-[var(--color-bg-secondary)] rounded-xl p-3 text-center">
-          Add Supabase credentials to <code className="text-[var(--color-accent)]">.env</code> to enable watchlist
+        <p className="text-xs text-slate-400 bg-[#1e293b]/50 rounded-xl p-3 text-center border border-white/5">
+          Add Supabase credentials to <code className="text-[#00f0ff]">.env</code> to enable watchlist
         </p>
       ) : watchlist.length > 0 ? (
         <div className="space-y-1.5">
           {watchlist.map((w) => (
             <div
               key={w.handle}
-              className="group flex items-center justify-between px-3 py-2 rounded-xl bg-[var(--color-bg-secondary)] border border-[var(--color-border)] hover:border-[var(--color-border-hover)] transition-all"
+              className="group flex items-center justify-between px-3 py-2 rounded-xl bg-[#1e293b]/50 border border-white/5 hover:border-white/20 transition-all"
             >
-              <span className="text-sm font-medium font-mono">{w.handle}</span>
+              <span className="text-sm font-medium font-mono text-slate-200">{w.handle}</span>
               <div className="flex items-center gap-1.5">
                 <button
                   onClick={() => onAnalyze(w.handle)}
-                  className="p-1.5 rounded-lg text-[var(--color-text-muted)] hover:text-[var(--color-accent)] hover:bg-[var(--color-accent-soft)] opacity-0 group-hover:opacity-100 transition-all"
+                  className="p-1.5 rounded-lg text-slate-500 hover:text-[#00f0ff] hover:bg-[rgba(0,240,255,0.1)] opacity-0 group-hover:opacity-100 transition-all"
                 >
                   <Eye className="w-3.5 h-3.5" />
                 </button>
                 <button
                   onClick={() => removeHandle(w.handle)}
-                  className="p-1.5 rounded-lg text-[var(--color-text-muted)] hover:text-[var(--color-red)] hover:bg-[rgba(248,113,113,0.1)] opacity-0 group-hover:opacity-100 transition-all"
+                  className="p-1.5 rounded-lg text-slate-500 hover:text-[#ef4444] hover:bg-[rgba(239,68,68,0.1)] opacity-0 group-hover:opacity-100 transition-all"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
                 </button>
@@ -119,7 +119,7 @@ export default function Watchlist({ currentHandle, onAnalyze }) {
           ))}
         </div>
       ) : (
-        <p className="text-xs text-[var(--color-text-muted)] text-center py-4">
+        <p className="text-xs text-slate-400 text-center py-4">
           Star a handle to add it to your watchlist
         </p>
       )}

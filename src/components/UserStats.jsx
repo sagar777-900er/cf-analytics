@@ -15,19 +15,19 @@ const RANK_STYLES = {
 
 function StatCard({ icon: Icon, label, value, iconColor, delay }) {
   return (
-    <div className={`bento-card animate-fade-in animate-fade-in-delay-${delay} flex flex-col gap-3`}>
+    <div className={`glass-card animate-fade-in animate-fade-in-delay-${delay} flex flex-col gap-3 p-4`}>
       <div className="flex items-center gap-2">
         <div
-          className="w-8 h-8 rounded-lg flex items-center justify-center"
+          className="w-8 h-8 rounded-lg flex items-center justify-center glow-cyan"
           style={{ backgroundColor: `${iconColor}15` }}
         >
           <Icon className="w-4 h-4" style={{ color: iconColor }} />
         </div>
-        <span className="text-xs font-medium text-[var(--color-text-muted)] uppercase tracking-wider">
+        <span className="text-xs font-medium text-slate-400 uppercase tracking-wider">
           {label}
         </span>
       </div>
-      <p className="text-2xl font-bold tracking-tight font-mono">
+      <p className="text-2xl font-bold tracking-tight font-mono text-white">
         {value}
       </p>
     </div>
@@ -45,33 +45,33 @@ export default function UserStats({ userData, submissions }) {
   return (
     <div className="animate-fade-in">
       {/* Profile Header */}
-      <div className="bento-card mb-4 flex items-center gap-5">
+      <div className="glass-card mb-4 flex items-center gap-5 p-5">
         <div className="relative">
           <img
             src={userData.titlePhoto?.startsWith('//') ? `https:${userData.titlePhoto}` : userData.titlePhoto}
             alt={userData.handle}
             className="w-16 h-16 rounded-2xl object-cover border-2"
-            style={{ borderColor: rankStyle.color }}
+            style={{ borderColor: rankStyle.color, boxShadow: `0 0 15px ${rankStyle.color}80` }}
             onError={(e) => {
               e.target.src = `https://ui-avatars.com/api/?name=${userData.handle}&background=16161f&color=f0f0f5&size=64`;
             }}
           />
           <div
-            className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full border-2 border-[var(--color-bg-primary)]"
+            className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full border-2 border-[#0a0f1d]"
             style={{ backgroundColor: rankStyle.color }}
           />
         </div>
         <div className="flex-1 min-w-0">
-          <h2 className="text-xl font-bold tracking-tight truncate">{userData.handle}</h2>
+          <h2 className="text-xl font-bold tracking-tight truncate text-white">{userData.handle}</h2>
           <div className="flex items-center gap-2 mt-1">
             <span
               className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold capitalize"
-              style={{ color: rankStyle.color, backgroundColor: rankStyle.bg }}
+              style={{ color: rankStyle.color, backgroundColor: rankStyle.color + '20' }}
             >
               {rank}
             </span>
             {userData.organization && (
-              <span className="text-xs text-[var(--color-text-muted)] truncate">
+              <span className="text-xs text-slate-400 truncate">
                 {userData.organization}
               </span>
             )}
@@ -85,28 +85,28 @@ export default function UserStats({ userData, submissions }) {
           icon={TrendingUp}
           label="Current Rating"
           value={userData.rating ?? 'Unrated'}
-          iconColor="var(--color-accent)"
+          iconColor="#00f0ff"
           delay={1}
         />
         <StatCard
           icon={Crown}
           label="Max Rating"
           value={userData.maxRating ?? 'Unrated'}
-          iconColor="var(--color-yellow)"
+          iconColor="#fbbf24"
           delay={2}
         />
         <StatCard
           icon={Hash}
           label="Problems Solved"
           value={solvedCount}
-          iconColor="var(--color-green)"
+          iconColor="#22c55e"
           delay={3}
         />
         <StatCard
           icon={Swords}
           label="Best Problem"
           value={bestRating}
-          iconColor="var(--color-red)"
+          iconColor="#ff007f"
           delay={4}
         />
       </div>
