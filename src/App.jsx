@@ -100,14 +100,6 @@ function App() {
                 <div id="export-container" className="p-4 -mx-4 rounded-3xl bg-[var(--color-space-bg)] border border-transparent">
                   {/* User Stats */}
                   <UserStats userData={userData} submissions={submissions} />
-
-                  {/* SWOT Analysis */}
-                  <SWOTAnalysis 
-                    userData={userData} 
-                    submissions={submissions} 
-                    training={training} 
-                    ratingHistory={ratingHistory} 
-                  />
                 </div>
 
                 {/* Charts Row */}
@@ -127,6 +119,14 @@ function App() {
                     <Watchlist currentHandle={currentHandle} onAnalyze={analyze} userData={userData} />
                   </div>
                 </div>
+
+                {/* SWOT Analysis (Moved to bottom) */}
+                <SWOTAnalysis 
+                  userData={userData} 
+                  submissions={submissions} 
+                  training={training} 
+                  ratingHistory={ratingHistory} 
+                />
               </>
             )}
           </div>
