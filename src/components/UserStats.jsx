@@ -56,7 +56,7 @@ export default function UserStats({ userData, submissions }) {
       }
       
       const dataUrl = await toPng(element, { 
-        backgroundColor: '#030509',
+        backgroundColor: '#000000',
         pixelRatio: 2,
         cacheBust: true,
         filter: (node) => {
@@ -93,7 +93,7 @@ export default function UserStats({ userData, submissions }) {
             }}
           />
           <div
-            className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full border-2 border-[#0a0f1d]"
+            className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full border-2 border-[#0f0f0f]"
             style={{ backgroundColor: rankStyle.color }}
           />
         </div>
@@ -118,7 +118,7 @@ export default function UserStats({ userData, submissions }) {
         <button
           onClick={handleExport}
           disabled={isExporting}
-          className="export-btn shrink-0 flex items-center justify-center gap-2 px-4 py-2 bg-slate-800 hover:bg-[#00f0ff]/20 text-[#00f0ff] border border-[#00f0ff]/30 rounded-xl font-bold text-sm transition-all glow-cyan-border shadow-lg"
+          className="export-btn shrink-0 flex items-center justify-center gap-2 px-4 py-2 bg-slate-800 hover:bg-[#38bdf8]/20 text-[#38bdf8] border border-[#38bdf8]/30 rounded-xl font-bold text-sm transition-all glow-cyan-border shadow-lg"
         >
           {isExporting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
           <span className="hidden sm:inline">{isExporting ? 'Exporting...' : 'Share Profile'}</span>
@@ -131,7 +131,7 @@ export default function UserStats({ userData, submissions }) {
           icon={TrendingUp}
           label="Current Rating"
           value={userData.rating ?? 'Unrated'}
-          iconColor="#00f0ff"
+          iconColor="#38bdf8"
           delay={1}
         />
         <StatCard
@@ -152,7 +152,7 @@ export default function UserStats({ userData, submissions }) {
           icon={Swords}
           label="Best Problem"
           value={bestRating}
-          iconColor="#ff007f"
+          iconColor="#a78bfa"
           delay={4}
         />
       </div>

@@ -40,7 +40,7 @@ export default function VirtualContest({ currentHandle }) {
     <div className="glass-card p-5 animate-fade-in">
       <div className="flex items-center gap-3 mb-5 border-b border-white/5 pb-4">
         <div className="w-10 h-10 rounded-xl bg-[rgba(255,0,127,0.1)] flex items-center justify-center glow-pink shadow-lg">
-          <Swords className="w-5 h-5 text-[#ff007f]" />
+          <Swords className="w-5 h-5 text-[#a78bfa]" />
         </div>
         <div>
           <h3 className="text-lg font-bold text-white tracking-wide">Virtual Contest Generator</h3>
@@ -57,7 +57,7 @@ export default function VirtualContest({ currentHandle }) {
               value={minRating}
               onChange={(e) => setMinRating(parseInt(e.target.value) || 800)}
               step="100"
-              className="w-full bg-[#0a0f1d]/50 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-[#ff007f] focus:outline-none transition-colors"
+              className="w-full bg-[#0f0f0f]/50 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-[#a78bfa] focus:outline-none transition-colors"
             />
           </div>
           <div className="flex-1">
@@ -67,7 +67,7 @@ export default function VirtualContest({ currentHandle }) {
               value={maxRating}
               onChange={(e) => setMaxRating(parseInt(e.target.value) || 3500)}
               step="100"
-              className="w-full bg-[#0a0f1d]/50 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-[#ff007f] focus:outline-none transition-colors"
+              className="w-full bg-[#0f0f0f]/50 border border-white/10 rounded-lg px-3 py-2 text-sm text-white focus:border-[#a78bfa] focus:outline-none transition-colors"
             />
           </div>
         </div>
@@ -75,7 +75,7 @@ export default function VirtualContest({ currentHandle }) {
         <button
           type="submit"
           disabled={loading || minRating > maxRating}
-          className="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg bg-[#ff007f]/20 hover:bg-[#ff007f]/40 border border-[#ff007f]/50 text-[#ff007f] font-bold text-sm transition-all glow-pink disabled:opacity-50"
+          className="w-full flex items-center justify-center gap-2 py-2.5 rounded-lg bg-[#a78bfa]/20 hover:bg-[#a78bfa]/40 border border-[#a78bfa]/50 text-[#a78bfa] font-bold text-sm transition-all glow-pink disabled:opacity-50"
         >
           {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Play className="w-4 h-4 fill-current" />}
           Generate Contest
@@ -92,15 +92,15 @@ export default function VirtualContest({ currentHandle }) {
               href={p.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="block group bg-[#0a0f1d]/40 border border-white/5 hover:border-[#ff007f]/50 rounded-xl p-3 transition-colors"
+              className="block group bg-[#0f0f0f]/40 border border-white/5 hover:border-[#a78bfa]/50 rounded-xl p-3 transition-colors"
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <span className="text-xl font-bold font-mono text-slate-600 group-hover:text-[#ff007f] transition-colors w-6">
+                  <span className="text-xl font-bold font-mono text-slate-600 group-hover:text-[#a78bfa] transition-colors w-6">
                     {String.fromCharCode(65 + i)}
                   </span>
                   <div>
-                    <h4 className="text-sm font-bold text-white group-hover:text-[#00f0ff] transition-colors truncate max-w-[200px] sm:max-w-xs">{p.name}</h4>
+                    <h4 className="text-sm font-bold text-white group-hover:text-[#38bdf8] transition-colors truncate max-w-[200px] sm:max-w-xs">{p.name}</h4>
                     <p className="text-xs text-slate-400 font-mono mt-0.5">{p.contestId}{p.index} • Rating: {p.rating}</p>
                   </div>
                 </div>

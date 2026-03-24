@@ -34,7 +34,7 @@ export default function Header({ onAnalyze, onAnalyzeH2H, loading, isH2HMode, se
             <button
               type="button"
               onClick={() => setIsH2HMode(!isH2HMode)}
-              className={`hidden md:flex items-center gap-1.5 px-3 py-2 rounded-xl border text-xs font-semibold transition-all ${isH2HMode ? 'bg-[rgba(255,0,127,0.1)] border-[#ff007f]/30 text-[#ff007f] glow-pink' : 'bg-slate-900/50 border-white/10 text-slate-400 hover:text-white'}`}
+              className={`hidden md:flex items-center gap-1.5 px-3 py-2 rounded-xl border text-xs font-semibold transition-all ${isH2HMode ? 'bg-[rgba(255,0,127,0.1)] border-[#a78bfa]/30 text-[#a78bfa] glow-pink' : 'bg-slate-900/50 border-white/10 text-slate-400 hover:text-white'}`}
             >
               <Users className="w-3.5 h-3.5" />
               VS
@@ -47,7 +47,7 @@ export default function Header({ onAnalyze, onAnalyzeH2H, loading, isH2HMode, se
                   value={handle1}
                   onChange={(e) => setHandle1(e.target.value)}
                   placeholder="Player 1..."
-                  className="w-full px-4 py-2 bg-slate-900/80 border border-white/10 rounded-l-xl text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-[#00f0ff] focus:ring-1 focus:ring-[#00f0ff] transition-all"
+                  className="w-full px-4 py-2 bg-slate-900/80 border border-white/10 rounded-l-xl text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-[#38bdf8] focus:ring-1 focus:ring-[#38bdf8] transition-all"
                 />
                 <span className="text-slate-500 font-black italic text-sm">VS</span>
                 <input
@@ -55,12 +55,12 @@ export default function Header({ onAnalyze, onAnalyzeH2H, loading, isH2HMode, se
                   value={handle2}
                   onChange={(e) => setHandle2(e.target.value)}
                   placeholder="Player 2..."
-                  className="w-full px-4 py-2 bg-slate-900/80 border border-white/10 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-[#ff007f] focus:ring-1 focus:ring-[#ff007f] transition-all"
+                  className="w-full px-4 py-2 bg-slate-900/80 border border-white/10 text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-[#a78bfa] focus:ring-1 focus:ring-[#a78bfa] transition-all"
                 />
                 <button
                   type="submit"
                   disabled={loading || !handle1.trim() || !handle2.trim()}
-                  className="px-4 py-2 shrink-0 bg-[#ff007f]/80 hover:bg-[#ff007f] disabled:opacity-40 disabled:cursor-not-allowed rounded-r-xl text-xs font-semibold text-white transition-all glow-pink border-y border-r border-[#ff007f]"
+                  className="px-4 py-2 shrink-0 bg-[#a78bfa]/80 hover:bg-[#a78bfa] disabled:opacity-40 disabled:cursor-not-allowed rounded-r-xl text-xs font-semibold text-white transition-all glow-pink border-y border-r border-[#a78bfa]"
                 >
                   {loading ? '...' : 'Duel'}
                 </button>

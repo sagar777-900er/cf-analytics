@@ -44,14 +44,14 @@ export default function HeadToHead({ dataUser1, dataUser2 }) {
     return (
       <div className="flex items-center justify-between py-3 border-b border-white/5 last:border-0 hover:bg-white/5 px-2 rounded-lg transition-colors">
         <div className="flex-1 text-center font-mono font-bold text-lg">
-          <span className={val1 !== null && val1 > val2 ? "text-[#00f0ff] glow-cyan" : "text-white"}>{val1 ?? 'N/A'}</span>
+          <span className={val1 !== null && val1 > val2 ? "text-[#38bdf8] glow-cyan" : "text-white"}>{val1 ?? 'N/A'}</span>
         </div>
         <div className="flex flex-col items-center justify-center px-4 w-32 shrink-0">
           <Icon className="w-4 h-4 text-slate-500 mb-1" />
           <span className="text-[10px] uppercase tracking-widest text-slate-500 font-semibold">{label}</span>
         </div>
         <div className="flex-1 text-center font-mono font-bold text-lg">
-          <span className={val2 !== null && val2 > val1 ? "text-[#ff007f] glow-pink" : "text-white"}>{val2 ?? 'N/A'}</span>
+          <span className={val2 !== null && val2 > val1 ? "text-[#a78bfa] glow-pink" : "text-white"}>{val2 ?? 'N/A'}</span>
         </div>
       </div>
     );
@@ -60,8 +60,8 @@ export default function HeadToHead({ dataUser1, dataUser2 }) {
   return (
     <div className="mt-8 animate-fade-in space-y-6">
       <div className="flex items-center gap-3 mb-6 justify-center">
-        <div className="w-12 h-12 rounded-2xl bg-[rgba(255,0,127,0.1)] flex items-center justify-center glow-pink border border-[#ff007f]/30">
-          <Swords className="w-6 h-6 text-[#ff007f]" />
+        <div className="w-12 h-12 rounded-2xl bg-[rgba(255,0,127,0.1)] flex items-center justify-center glow-pink border border-[#a78bfa]/30">
+          <Swords className="w-6 h-6 text-[#a78bfa]" />
         </div>
         <div>
           <h2 className="text-2xl font-bold tracking-tight text-white">Head-to-Head</h2>
@@ -74,17 +74,17 @@ export default function HeadToHead({ dataUser1, dataUser2 }) {
         <div className="glass-card p-6 flex flex-col justify-center">
           <div className="flex justify-between items-end mb-8 px-4">
             <div className="text-center flex-1">
-              <img src={u1.titlePhoto?.startsWith('//') ? `https:${u1.titlePhoto}` : u1.titlePhoto} alt={u1.handle} className="w-16 h-16 mx-auto rounded-xl object-cover border-2 border-[#00f0ff] mb-2 shadow-[0_0_15px_rgba(0,240,255,0.4)]" />
+              <img src={u1.titlePhoto?.startsWith('//') ? `https:${u1.titlePhoto}` : u1.titlePhoto} alt={u1.handle} className="w-16 h-16 mx-auto rounded-xl object-cover border-2 border-[#38bdf8] mb-2 shadow-[0_0_15px_rgba(0,240,255,0.4)]" />
               <h3 className="text-lg font-bold text-white truncate">{u1.handle}</h3>
             </div>
             <div className="mx-4 pb-2 text-2xl font-black text-slate-700 italic">VS</div>
             <div className="text-center flex-1">
-              <img src={u2.titlePhoto?.startsWith('//') ? `https:${u2.titlePhoto}` : u2.titlePhoto} alt={u2.handle} className="w-16 h-16 mx-auto rounded-xl object-cover border-2 border-[#ff007f] mb-2 shadow-[0_0_15px_rgba(255,0,127,0.4)]" />
+              <img src={u2.titlePhoto?.startsWith('//') ? `https:${u2.titlePhoto}` : u2.titlePhoto} alt={u2.handle} className="w-16 h-16 mx-auto rounded-xl object-cover border-2 border-[#a78bfa] mb-2 shadow-[0_0_15px_rgba(255,0,127,0.4)]" />
               <h3 className="text-lg font-bold text-white truncate">{u2.handle}</h3>
             </div>
           </div>
           
-          <div className="bg-[#0a0f1d]/50 rounded-xl p-2 border border-white/5">
+          <div className="bg-[#0f0f0f]/50 rounded-xl p-2 border border-white/5">
             <StatCompare label="Rating" icon={Trophy} val1={u1.rating} val2={u2.rating} />
             <StatCompare label="Max Rating" icon={Trophy} val1={u1.maxRating} val2={u2.maxRating} />
             <StatCompare label="Problems Solved" icon={Hash} val1={s1?.solvedCount} val2={s2?.solvedCount} />
@@ -106,8 +106,8 @@ export default function HeadToHead({ dataUser1, dataUser2 }) {
                   itemStyle={{ fontSize: '12px', fontWeight: 'bold' }}
                 />
                 <Legend iconType="circle" />
-                <Radar name={u1.handle} dataKey="user1Count" stroke="#00f0ff" fill="#00f0ff" fillOpacity={0.4} strokeWidth={2} />
-                <Radar name={u2.handle} dataKey="user2Count" stroke="#ff007f" fill="#ff007f" fillOpacity={0.4} strokeWidth={2} />
+                <Radar name={u1.handle} dataKey="user1Count" stroke="#38bdf8" fill="#38bdf8" fillOpacity={0.4} strokeWidth={2} />
+                <Radar name={u2.handle} dataKey="user2Count" stroke="#a78bfa" fill="#a78bfa" fillOpacity={0.4} strokeWidth={2} />
               </RadarChart>
             </ResponsiveContainer>
           </div>

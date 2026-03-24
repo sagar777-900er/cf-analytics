@@ -21,7 +21,7 @@ function CustomTooltip({ active, payload }) {
   return (
     <div className="glass-card rounded-xl px-4 py-2.5 shadow-2xl">
       <p className="text-xs font-semibold font-mono text-white">Rating {d.range}</p>
-      <p className="text-lg font-bold font-mono text-[#ff007f]">
+      <p className="text-lg font-bold font-mono text-[#a78bfa]">
         {d.count} <span className="text-xs font-normal text-slate-400">solved</span>
       </p>
     </div>
@@ -35,7 +35,7 @@ export default function ProblemBuckets({ buckets }) {
     <div className="glass-card animate-fade-in animate-fade-in-delay-4 p-5">
       <div className="flex items-center gap-2 mb-5">
         <div className="w-8 h-8 rounded-lg bg-[rgba(255,0,127,0.1)] flex items-center justify-center glow-pink">
-          <BarChart3 className="w-4 h-4 text-[#ff007f]" />
+          <BarChart3 className="w-4 h-4 text-[#a78bfa]" />
         </div>
         <div>
           <h3 className="text-sm font-semibold text-white">Rating Distribution</h3>
@@ -64,7 +64,7 @@ export default function ProblemBuckets({ buckets }) {
             <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(255,255,255,0.05)' }} />
             <Bar dataKey="count" radius={[6, 6, 0, 0]} maxBarSize={40}>
               {buckets.map((entry, i) => (
-                <Cell key={entry.range} fill={BAR_COLORS[i] || '#ff007f'} fillOpacity={0.8} />
+                <Cell key={entry.range} fill={BAR_COLORS[i] || '#a78bfa'} fillOpacity={0.8} />
               ))}
             </Bar>
           </BarChart>

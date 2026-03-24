@@ -62,7 +62,7 @@ export default function Watchlist({ currentHandle, onAnalyze, userData }) {
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-lg bg-[rgba(249,115,22,0.1)] flex items-center justify-center glow-orange">
-            <Star className="w-4 h-4 text-[#f97316]" />
+            <Star className="w-4 h-4 text-[#fbbf24]" />
           </div>
           <div>
             <h3 className="text-sm font-semibold text-white">Live Leaderboard</h3>
@@ -78,7 +78,7 @@ export default function Watchlist({ currentHandle, onAnalyze, userData }) {
             disabled={starring}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition-all border"
             style={{
-              color: isStarred ? '#f97316' : '#cbd5e1',
+              color: isStarred ? '#fbbf24' : '#cbd5e1',
               borderColor: isStarred ? 'rgba(249,115,22,0.2)' : 'rgba(255,255,255,0.1)',
               backgroundColor: isStarred ? 'rgba(249,115,22,0.1)' : 'transparent',
             }}
@@ -91,14 +91,14 @@ export default function Watchlist({ currentHandle, onAnalyze, userData }) {
 
       {disabled ? (
         <p className="text-xs text-slate-400 bg-[#1e293b]/50 rounded-xl p-3 text-center border border-white/5">
-          Add Supabase credentials to <code className="text-[#00f0ff]">.env</code> to enable watchlist
+          Add Supabase credentials to <code className="text-[#38bdf8]">.env</code> to enable watchlist
         </p>
       ) : watchlist.length > 0 ? (
         <div className="space-y-2 max-h-[400px] overflow-y-auto pr-1 custom-scrollbar">
           {watchlist.map((w, index) => (
             <div
               key={w.handle}
-              className="group relative flex items-center justify-between px-4 py-3 rounded-xl bg-[#0a0f1d]/50 border border-white/5 hover:border-[#f97316]/30 transition-all overflow-hidden"
+              className="group relative flex items-center justify-between px-4 py-3 rounded-xl bg-[#0f0f0f]/50 border border-white/5 hover:border-[#fbbf24]/30 transition-all overflow-hidden"
             >
               {index === 0 && (
                 <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-[#fbbf24]/20 to-transparent flex items-start justify-end p-2 pointer-events-none rounded-tr-xl">
@@ -122,7 +122,7 @@ export default function Watchlist({ currentHandle, onAnalyze, userData }) {
                   </span>
                 </div>
                 <div className="text-right">
-                  <div className={`text-sm font-black font-mono ${w.rating > (userData?.rating || 0) ? 'text-[#f97316]' : 'text-[#00f0ff]'}`}>
+                  <div className={`text-sm font-black font-mono ${w.rating > (userData?.rating || 0) ? 'text-[#fbbf24]' : 'text-[#38bdf8]'}`}>
                     {w.rating || 0}
                   </div>
                   <div className="text-[10px] text-slate-500 font-mono">
@@ -132,10 +132,10 @@ export default function Watchlist({ currentHandle, onAnalyze, userData }) {
               </div>
 
               {/* Hover Actions Menu */}
-              <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-all bg-[#0a0f1d] px-2 py-1 rounded-lg border border-white/10 shadow-xl z-20">
+              <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-all bg-[#0f0f0f] px-2 py-1 rounded-lg border border-white/10 shadow-xl z-20">
                 <button
                   onClick={() => onAnalyze(w.handle)}
-                  className="p-1.5 rounded-lg text-slate-400 hover:text-[#00f0ff] hover:bg-[rgba(0,240,255,0.1)] transition-all"
+                  className="p-1.5 rounded-lg text-slate-400 hover:text-[#38bdf8] hover:bg-[rgba(0,240,255,0.1)] transition-all"
                   title="Analyze Profile"
                 >
                   <Eye className="w-4 h-4" />

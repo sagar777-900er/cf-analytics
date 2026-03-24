@@ -79,7 +79,7 @@ function App() {
               <span className="flex flex-col items-center gap-1">
                 <button
                   onClick={() => setIsH2HMode(true)}
-                  className="px-4 py-2 rounded-xl bg-[#ff007f]/10 text-[#ff007f] font-semibold border border-[#ff007f]/30 hover:bg-[#ff007f]/20 transition-all text-xs"
+                  className="px-4 py-2 rounded-xl bg-[#a78bfa]/10 text-[#a78bfa] font-semibold border border-[#a78bfa]/30 hover:bg-[#a78bfa]/20 transition-all text-xs"
                 >
                   <Users className="w-4 h-4 inline mr-2" />
                   Try Head-to-Head Mode

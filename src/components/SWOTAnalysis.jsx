@@ -90,7 +90,7 @@ export default function SWOTAnalysis({ userData, submissions, training, ratingHi
     <div className="mt-8 animate-fade-in">
       <div className="flex items-center gap-3 mb-6">
         <div className="w-10 h-10 rounded-xl bg-[rgba(176,38,255,0.1)] flex items-center justify-center glow-purple">
-          <Zap className="w-5 h-5 text-[#b026ff]" />
+          <Zap className="w-5 h-5 text-[#818cf8]" />
         </div>
         <div>
           <h2 className="text-xl font-bold tracking-tight text-white">SWOT Analysis</h2>
@@ -117,14 +117,14 @@ export default function SWOTAnalysis({ userData, submissions, training, ratingHi
           title="Opportunities" 
           items={opportunities} 
           icon={Lightbulb} 
-          color="#00f0ff" 
+          color="#38bdf8" 
           delay={3} 
         />
         <SWOTCard 
           title="Threats" 
           items={threats} 
           icon={Zap} 
-          color="#f97316" 
+          color="#fbbf24" 
           delay={4} 
         />
       </div>

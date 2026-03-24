@@ -29,13 +29,13 @@ export default function TrainingRange({ training }) {
             href={p.url}
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex items-center gap-3 px-3 py-2.5 rounded-xl bg-[#1e293b]/50 border border-white/5 hover:border-[#00f0ff]/50 hover:bg-[#00f0ff]/5 transition-all"
+            className="group flex items-center gap-3 px-3 py-2.5 rounded-xl bg-[#1e293b]/50 border border-white/5 hover:border-[#38bdf8]/50 hover:bg-[#38bdf8]/5 transition-all"
           >
-            <span className="w-6 h-6 rounded-lg bg-[#0a0f1d] flex items-center justify-center text-[10px] font-bold text-slate-400 font-mono shrink-0 border border-white/5">
+            <span className="w-6 h-6 rounded-lg bg-[#0f0f0f] flex items-center justify-center text-[10px] font-bold text-slate-400 font-mono shrink-0 border border-white/5">
               {i + 1}
             </span>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium truncate text-slate-200 group-hover:text-[#00f0ff] transition-colors">
+              <p className="text-sm font-medium truncate text-slate-200 group-hover:text-[#38bdf8] transition-colors">
                 {p.name}
               </p>
               <div className="flex items-center gap-2 mt-0.5">
@@ -48,7 +48,7 @@ export default function TrainingRange({ training }) {
                 {p.tags?.slice(0, 2).map((tag) => (
                   <span
                     key={tag}
-                    className="hidden sm:inline text-[9px] px-1.5 py-0.5 rounded bg-[#0a0f1d] text-slate-400 border border-white/5"
+                    className="hidden sm:inline text-[9px] px-1.5 py-0.5 rounded bg-[#0f0f0f] text-slate-400 border border-white/5"
                   >
                     {tag}
                   </span>
