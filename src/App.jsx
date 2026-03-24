@@ -8,6 +8,7 @@ import Watchlist from './components/Watchlist';
 import LoadingSpinner from './components/LoadingSpinner';
 import SWOTAnalysis from './components/SWOTAnalysis';
 import HeadToHead from './components/HeadToHead';
+import VirtualContest from './components/VirtualContest';
 import { useCodeforcesData } from './hooks/useCodeforcesData';
 import { useH2HData } from './hooks/useH2HData';
 import { Zap, Code2, BarChart3, Target, Users } from 'lucide-react';
@@ -95,16 +96,19 @@ function App() {
               <HeadToHead dataUser1={dataUser1} dataUser2={dataUser2} />
             ) : (
               <>
-                {/* User Stats */}
-                <UserStats userData={userData} submissions={submissions} />
+                {/* Exportable Profile Card Area */}
+                <div id="export-container" className="p-4 -mx-4 rounded-3xl bg-[var(--color-space-bg)] border border-transparent">
+                  {/* User Stats */}
+                  <UserStats userData={userData} submissions={submissions} />
 
-                {/* SWOT Analysis */}
-                <SWOTAnalysis 
-                  userData={userData} 
-                  submissions={submissions} 
-                  training={training} 
-                  ratingHistory={ratingHistory} 
-                />
+                  {/* SWOT Analysis */}
+                  <SWOTAnalysis 
+                    userData={userData} 
+                    submissions={submissions} 
+                    training={training} 
+                    ratingHistory={ratingHistory} 
+                  />
+                </div>
 
                 {/* Charts Row */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -114,12 +118,13 @@ function App() {
 
                 {/* Bottom Row */}
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                  <div className="lg:col-span-2">
+                  <div className="lg:col-span-2 space-y-4">
                     <ProblemBuckets buckets={submissions?.buckets} />
+                    <VirtualContest currentHandle={currentHandle} />
                   </div>
                   <div className="space-y-4">
                     <TrainingRange training={training} />
-                    <Watchlist currentHandle={currentHandle} onAnalyze={analyze} />
+                    <Watchlist currentHandle={currentHandle} onAnalyze={analyze} userData={userData} />
                   </div>
                 </div>
               </>

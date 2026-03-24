@@ -2,8 +2,15 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { createClient } from '@supabase/supabase-js';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 dotenv.config();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const LOCAL_DB_PATH = path.join(__dirname, 'watchlist.json');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -227,32 +234,131 @@ app.get('/api/training/:handle', async (req, res) => {
     res.status(400).json({ success: false, error: err.message });
   }
 });
+// GET /api/problems — fetch specific random problems for a virtual contest
+app.get('/api/problems', async (req, res) => {
+  try {
+    const minRating = parseInt(req.query.minRating) || 800;
+    const maxRating = parseInt(req.query.maxRating) || 3500;
+    const handle = req.query.handle;
+    const count = parseInt(req.query.count) || 5;
 
-// ─── Watchlist Routes (Supabase) ─────────────────────────────────────────────
+    const problemsData = await fetchCF('problemset.problems', 'problemset');
+    let candidates = problemsData.problems || [];
+
+    candidates = candidates.filter(p => p.rating && p.rating >= minRating && p.rating <= maxRating);
+
+    if (handle) {
+      try {
+        const submissions = await fetchCF(`user.status?handle=${handle}`, `submissions:${handle}`);
+        const solvedKeys = new Set();
+        submissions.forEach(sub => {
+          if (sub.verdict === 'OK') {
+            solvedKeys.add(`${sub.problem.contestId}-${sub.problem.index}`);
+          }
+        });
+        candidates = candidates.filter(p => !solvedKeys.has(`${p.contestId}-${p.index}`));
+      } catch (err) {
+        console.warn(`Could not fetch submissions for ${handle}:`, err.message);
+      }
+    }
+
+    const shuffled = candidates.sort(() => 0.5 - Math.random());
+    const selected = shuffled.slice(0, count).map(p => ({
+      contestId: p.contestId,
+      index: p.index,
+      name: p.name,
+      rating: p.rating,
+      tags: p.tags,
+      url: `https://codeforces.com/problemset/problem/${p.contestId}/${p.index}`
+    }));
+
+    selected.sort((a, b) => a.rating - b.rating);
+
+    res.json({ success: true, data: selected });
+  } catch (err) {
+    res.status(400).json({ success: false, error: err.message });
+  }
+});
+
+// ─── Watchlist Routes (Supabase / Local DB Fallback) ─────────────────────────
+
+// Initialize local file DB if needed
+if (!supabase && !fs.existsSync(LOCAL_DB_PATH)) {
+  fs.writeFileSync(LOCAL_DB_PATH, JSON.stringify([]));
+}
+
+function getLocalWatchlist() {
+  try { return JSON.parse(fs.readFileSync(LOCAL_DB_PATH, 'utf8')); }
+  catch { return []; }
+}
+
+function saveLocalWatchlist(data) {
+  fs.writeFileSync(LOCAL_DB_PATH, JSON.stringify(data, null, 2));
+}
 
 app.get('/api/watchlist', async (req, res) => {
-  if (!supabase) return res.json({ success: true, data: [], disabled: true });
-
+  let list = [];
   try {
-    const { data, error } = await supabase
-      .from('watchlist')
-      .select('*')
-      .order('created_at', { ascending: false });
+    if (!supabase) {
+      list = getLocalWatchlist();
+    } else {
+      const { data, error } = await supabase
+        .from('watchlist')
+        .select('*')
+        .order('created_at', { ascending: false });
+      if (error) throw error;
+      list = data;
+    }
 
-    if (error) throw error;
-    res.json({ success: true, data });
+    // Optional enrichment
+    if (req.query.enrich === 'true' && list.length > 0) {
+      const handles = list.map(w => w.handle).join(';');
+      try {
+        const cfData = await fetchCF(`user.info?handles=${handles}`, `users:${handles}`);
+        // Merge
+        const cfMap = {};
+        cfData.forEach(user => {
+          cfMap[user.handle.toLowerCase()] = user;
+        });
+        
+        list = list.map(w => {
+          const u = cfMap[w.handle.toLowerCase()];
+          return {
+            ...w,
+            rating: u?.rating || 0,
+            maxRating: u?.maxRating || 0,
+            rank: u?.rank || 'unrated',
+            titlePhoto: u?.titlePhoto
+          };
+        });
+        
+        // Sort
+        list.sort((a, b) => b.rating - a.rating);
+      } catch (err) {
+        console.warn('Enrichment failed:', err.message);
+      }
+    }
+
+    res.json({ success: true, data: list, disabled: !supabase && false /* disabled is basically never true now */ });
   } catch (err) {
     res.status(400).json({ success: false, error: err.message });
   }
 });
 
 app.post('/api/watchlist', async (req, res) => {
-  if (!supabase) return res.status(400).json({ success: false, error: 'Supabase not configured' });
+  const { handle } = req.body;
+  if (!handle) return res.status(400).json({ success: false, error: 'Handle is required' });
+
+  if (!supabase) {
+    const list = getLocalWatchlist();
+    if (!list.find(w => w.handle === handle.toLowerCase())) {
+      list.unshift({ handle: handle.toLowerCase(), created_at: new Date().toISOString() });
+      saveLocalWatchlist(list);
+    }
+    return res.json({ success: true, data: { handle: handle.toLowerCase() } });
+  }
 
   try {
-    const { handle } = req.body;
-    if (!handle) throw new Error('Handle is required');
-
     const { data, error } = await supabase
       .from('watchlist')
       .upsert({ handle: handle.toLowerCase() }, { onConflict: 'handle' })
@@ -266,10 +372,15 @@ app.post('/api/watchlist', async (req, res) => {
 });
 
 app.delete('/api/watchlist/:handle', async (req, res) => {
-  if (!supabase) return res.status(400).json({ success: false, error: 'Supabase not configured' });
+  const { handle } = req.params;
+
+  if (!supabase) {
+    const list = getLocalWatchlist();
+    saveLocalWatchlist(list.filter(w => w.handle !== handle.toLowerCase()));
+    return res.json({ success: true });
+  }
 
   try {
-    const { handle } = req.params;
     const { error } = await supabase
       .from('watchlist')
       .delete()

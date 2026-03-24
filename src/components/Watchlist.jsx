@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Star, StarOff, Eye, Trash2 } from 'lucide-react';
 
-export default function Watchlist({ currentHandle, onAnalyze }) {
+export default function Watchlist({ currentHandle, onAnalyze, userData }) {
   const [watchlist, setWatchlist] = useState([]);
   const [disabled, setDisabled] = useState(false);
   const [starring, setStarring] = useState(false);
@@ -16,7 +16,7 @@ export default function Watchlist({ currentHandle, onAnalyze }) {
 
   const fetchWatchlist = async () => {
     try {
-      const res = await fetch('/api/watchlist');
+      const res = await fetch('/api/watchlist?enrich=true');
       const data = await res.json();
       if (data.disabled) {
         setDisabled(true);
@@ -65,9 +65,9 @@ export default function Watchlist({ currentHandle, onAnalyze }) {
             <Star className="w-4 h-4 text-[#f97316]" />
           </div>
           <div>
-            <h3 className="text-sm font-semibold text-white">Watchlist</h3>
+            <h3 className="text-sm font-semibold text-white">Live Leaderboard</h3>
             <p className="text-xs text-slate-400">
-              {disabled ? 'Supabase not configured' : `${watchlist.length} handles`}
+              {disabled ? 'Supabase not configured' : `${watchlist.length} rivals tracked`}
             </p>
           </div>
         </div>
@@ -94,25 +94,58 @@ export default function Watchlist({ currentHandle, onAnalyze }) {
           Add Supabase credentials to <code className="text-[#00f0ff]">.env</code> to enable watchlist
         </p>
       ) : watchlist.length > 0 ? (
-        <div className="space-y-1.5">
-          {watchlist.map((w) => (
+        <div className="space-y-2 max-h-[400px] overflow-y-auto pr-1 custom-scrollbar">
+          {watchlist.map((w, index) => (
             <div
               key={w.handle}
-              className="group flex items-center justify-between px-3 py-2 rounded-xl bg-[#1e293b]/50 border border-white/5 hover:border-white/20 transition-all"
+              className="group relative flex items-center justify-between px-4 py-3 rounded-xl bg-[#0a0f1d]/50 border border-white/5 hover:border-[#f97316]/30 transition-all overflow-hidden"
             >
-              <span className="text-sm font-medium font-mono text-slate-200">{w.handle}</span>
-              <div className="flex items-center gap-1.5">
+              {index === 0 && (
+                <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-[#fbbf24]/20 to-transparent flex items-start justify-end p-2 pointer-events-none rounded-tr-xl">
+                  <Star className="w-4 h-4 text-[#fbbf24] fill-[#fbbf24] opacity-80" />
+                </div>
+              )}
+              
+              <div className="flex items-center gap-4 z-10 w-full">
+                <div className="text-xs font-black text-slate-500 w-4">#{index + 1}</div>
+                {w.titlePhoto && (
+                  <img 
+                    src={w.titlePhoto.startsWith('//') ? `https:${w.titlePhoto}` : w.titlePhoto} 
+                    className="w-8 h-8 rounded-lg object-cover border border-white/10"
+                    alt={w.handle}
+                  />
+                )}
+                <div className="flex-1 min-w-0">
+                  <span className="text-sm font-bold font-mono text-white truncate block">{w.handle}</span>
+                  <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
+                    {w.rank || 'Unrated'}
+                  </span>
+                </div>
+                <div className="text-right">
+                  <div className={`text-sm font-black font-mono ${w.rating > (userData?.rating || 0) ? 'text-[#f97316]' : 'text-[#00f0ff]'}`}>
+                    {w.rating || 0}
+                  </div>
+                  <div className="text-[10px] text-slate-500 font-mono">
+                    Max: {w.maxRating || 0}
+                  </div>
+                </div>
+              </div>
+
+              {/* Hover Actions Menu */}
+              <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-all bg-[#0a0f1d] px-2 py-1 rounded-lg border border-white/10 shadow-xl z-20">
                 <button
                   onClick={() => onAnalyze(w.handle)}
-                  className="p-1.5 rounded-lg text-slate-500 hover:text-[#00f0ff] hover:bg-[rgba(0,240,255,0.1)] opacity-0 group-hover:opacity-100 transition-all"
+                  className="p-1.5 rounded-lg text-slate-400 hover:text-[#00f0ff] hover:bg-[rgba(0,240,255,0.1)] transition-all"
+                  title="Analyze Profile"
                 >
-                  <Eye className="w-3.5 h-3.5" />
+                  <Eye className="w-4 h-4" />
                 </button>
                 <button
                   onClick={() => removeHandle(w.handle)}
-                  className="p-1.5 rounded-lg text-slate-500 hover:text-[#ef4444] hover:bg-[rgba(239,68,68,0.1)] opacity-0 group-hover:opacity-100 transition-all"
+                  className="p-1.5 rounded-lg text-slate-400 hover:text-[#ef4444] hover:bg-[rgba(239,68,68,0.1)] transition-all"
+                  title="Remove from Leaderboard"
                 >
-                  <Trash2 className="w-3.5 h-3.5" />
+                  <Trash2 className="w-4 h-4" />
                 </button>
               </div>
             </div>

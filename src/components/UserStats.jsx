@@ -1,4 +1,6 @@
-import { Trophy, TrendingUp, Star, Hash, Swords, Crown } from 'lucide-react';
+import { Trophy, TrendingUp, Star, Hash, Swords, Crown, Download, Loader2 } from 'lucide-react';
+import { toPng } from 'html-to-image';
+import { useState } from 'react';
 
 const RANK_STYLES = {
   newbie: { color: '#808080', bg: 'rgba(128,128,128,0.1)' },
@@ -35,6 +37,8 @@ function StatCard({ icon: Icon, label, value, iconColor, delay }) {
 }
 
 export default function UserStats({ userData, submissions }) {
+  const [isExporting, setIsExporting] = useState(false);
+
   if (!userData) return null;
 
   const rank = userData.rank || 'unranked';
@@ -42,8 +46,40 @@ export default function UserStats({ userData, submissions }) {
   const solvedCount = submissions?.solvedCount || 0;
   const bestRating = submissions?.bestRating || 'N/A';
 
+  const handleExport = async () => {
+    try {
+      setIsExporting(true);
+      const element = document.getElementById('export-container');
+      if (!element) {
+        alert("Export container not found!");
+        return;
+      }
+      
+      const dataUrl = await toPng(element, { 
+        backgroundColor: '#030509',
+        pixelRatio: 2,
+        cacheBust: true,
+        filter: (node) => {
+          return !node.classList?.contains('export-btn');
+        }
+      });
+      
+      const link = document.createElement('a');
+      link.href = dataUrl;
+      link.download = `${userData.handle}-cf-stats.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (err) {
+      console.error('Export failed:', err);
+      alert('Export failed: ' + err.message);
+    } finally {
+      setIsExporting(false);
+    }
+  };
+
   return (
-    <div className="animate-fade-in">
+    <div className="animate-fade-in relative">
       {/* Profile Header */}
       <div className="glass-card mb-4 flex items-center gap-5 p-5">
         <div className="relative">
@@ -77,6 +113,16 @@ export default function UserStats({ userData, submissions }) {
             )}
           </div>
         </div>
+
+        {/* Export Button */}
+        <button
+          onClick={handleExport}
+          disabled={isExporting}
+          className="export-btn shrink-0 flex items-center justify-center gap-2 px-4 py-2 bg-slate-800 hover:bg-[#00f0ff]/20 text-[#00f0ff] border border-[#00f0ff]/30 rounded-xl font-bold text-sm transition-all glow-cyan-border shadow-lg"
+        >
+          {isExporting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+          <span className="hidden sm:inline">{isExporting ? 'Exporting...' : 'Share Profile'}</span>
+        </button>
       </div>
 
       {/* Stat Cards Grid */}
