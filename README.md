@@ -1,16 +1,46 @@
-# React + Vite
+# 🌌 Codeforces Analytics Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> **A beautifully crafted, "Deep Space" themed competitive programming dashboard.**
 
-Currently, two official plugins are available:
+![Deep Space Aesthetic](/docs/screenshot-placeholder.png) <!-- Add a screenshot of your dashboard here -->
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Features
 
-## React Compiler
+- **🚀 Deep Space Aesthetic**: Glassmorphism cards, glowing neon accents, and a dynamic stardust background specifically designed for a premium dark mode experience.
+- **📊 Real-Time Analytics**: Visualizes your rating trajectory, tag mastery, and problem rating distribution using Recharts.
+- **⚔️ Head-to-Head Mode**: Fetches and compares two Codeforces handles side-by-side using an interactive Radar intersection chart.
+- **🧠 Automated SWOT Analysis**: An intelligent profiling engine that calculates your Strengths, Weaknesses, Opportunities, and Threats based on your contest performance and solved problems volume.
+- **🌟 Watchlist Integration**: Hooked up to a persistent backend database (Supabase) to track friends and rivals instantly.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## 🛠️ Tech Stack
 
-## Expanding the ESLint configuration
+- **Frontend**: React 19, Vite, Tailwind CSS v4, Recharts, Lucide Icons.
+- **Architecture**: Custom React Hooks for unified API data aggregation (`useCodeforcesData`, `useH2HData`).
+- **Backend / API proxy**: Node.js & Express (used to bypass rate limits and manage the robust caching layer).
+- **Database**: Supabase Integration.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 💻 Running Locally
+
+To get this project running on your local machine, follow these steps:
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/sagar777-900er/cf-analytics.git
+   cd cf-analytics
+   ```
+
+2. **Install all dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Start the development server and backend concurrently:**
+   ```bash
+   npm run dev:all
+   ```
+
+4. **Visit the application** at `http://localhost:5173`.
+
+---
+
+*Designed and developed by [Sagar](https://github.com/sagar777-900er).*
