@@ -8,10 +8,10 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "server": "node server/server.js",
+    "server": "node api/index.js",
     "dev:all": "concurrently \"npm run dev\" \"npm run server\"",
     "test": "vitest run",
-    "start": "node server/server.js"
+    "start": "node api/index.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.100.0",

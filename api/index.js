@@ -407,7 +407,7 @@ app.get('/api/health', (req, res) => {
 });
 
 // ─── Production Static Serving ───────────────────────────────────────────────
-if (process.env.NODE_ENV === 'production') {
+if (process.env.NODE_ENV === 'production' && !process.env.VERCEL) {
   const distPath = path.join(__dirname, '../dist');
   app.use(express.static(distPath));
   app.get('*', (req, res) => {
@@ -415,7 +415,11 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-// ─── Start ───────────────────────────────────────────────────────────────────
-app.listen(PORT, () => {
-  console.log(`🚀 CF Analytics API running on http://localhost:${PORT}`);
-});
+// ─── Start or Export ─────────────────────────────────────────────────────────
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`🚀 CF Analytics API running on http://localhost:${PORT}`);
+  });
+}
+
+export default app;
