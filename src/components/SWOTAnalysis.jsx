@@ -117,7 +117,7 @@ export default function SWOTAnalysis({ userData, submissions, training, ratingHi
           title="Opportunities" 
           items={opportunities} 
           icon={Lightbulb} 
-          color="#38bdf8" 
+          color="#00f0ff" 
           delay={3} 
         />
         <SWOTCard 

@@ -100,7 +100,7 @@ export default function VirtualContest({ currentHandle }) {
                     {String.fromCharCode(65 + i)}
                   </span>
                   <div>
-                    <h4 className="text-sm font-bold text-white group-hover:text-[#38bdf8] transition-colors truncate max-w-[200px] sm:max-w-xs">{p.name}</h4>
+                    <h4 className="text-sm font-bold text-white group-hover:text-[#00f0ff] transition-colors truncate max-w-[200px] sm:max-w-xs">{p.name}</h4>
                     <p className="text-xs text-slate-400 font-mono mt-0.5">{p.contestId}{p.index} • Rating: {p.rating}</p>
                   </div>
                 </div>

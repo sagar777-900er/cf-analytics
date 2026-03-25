@@ -91,7 +91,7 @@ export default function Watchlist({ currentHandle, onAnalyze, userData }) {
 
       {disabled ? (
         <p className="text-xs text-slate-400 bg-[#1e293b]/50 rounded-xl p-3 text-center border border-white/5">
-          Add Supabase credentials to <code className="text-[#38bdf8]">.env</code> to enable watchlist
+          Add Supabase credentials to <code className="text-[#00f0ff]">.env</code> to enable watchlist
         </p>
       ) : watchlist.length > 0 ? (
         <div className="space-y-2 max-h-[400px] overflow-y-auto pr-1 custom-scrollbar">
@@ -122,7 +122,7 @@ export default function Watchlist({ currentHandle, onAnalyze, userData }) {
                   </span>
                 </div>
                 <div className="text-right">
-                  <div className={`text-sm font-black font-mono ${w.rating > (userData?.rating || 0) ? 'text-[#fbbf24]' : 'text-[#38bdf8]'}`}>
+                  <div className={`text-sm font-black font-mono ${w.rating > (userData?.rating || 0) ? 'text-[#fbbf24]' : 'text-[#00f0ff]'}`}>
                     {w.rating || 0}
                   </div>
                   <div className="text-[10px] text-slate-500 font-mono">
@@ -135,7 +135,7 @@ export default function Watchlist({ currentHandle, onAnalyze, userData }) {
               <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-all bg-[#0f0f0f] px-2 py-1 rounded-lg border border-white/10 shadow-xl z-20">
                 <button
                   onClick={() => onAnalyze(w.handle)}
-                  className="p-1.5 rounded-lg text-slate-400 hover:text-[#38bdf8] hover:bg-[rgba(0,240,255,0.1)] transition-all"
+                  className="p-1.5 rounded-lg text-slate-400 hover:text-[#00f0ff] hover:bg-[rgba(0,240,255,0.1)] transition-all"
                   title="Analyze Profile"
                 >
                   <Eye className="w-4 h-4" />

@@ -36,7 +36,7 @@ export default function RatingChart({ ratingHistory }) {
     <div className="glass-card animate-fade-in animate-fade-in-delay-2 p-5">
       <div className="flex items-center gap-2 mb-5">
         <div className="w-8 h-8 rounded-lg bg-[rgba(0,240,255,0.1)] flex items-center justify-center glow-cyan">
-          <TrendingUp className="w-4 h-4 text-[#38bdf8]" />
+          <TrendingUp className="w-4 h-4 text-[#00f0ff]" />
         </div>
         <div>
           <h3 className="text-sm font-semibold text-white">Rating Trajectory</h3>
@@ -49,8 +49,8 @@ export default function RatingChart({ ratingHistory }) {
           <AreaChart data={ratingHistory} margin={{ top: 5, right: 10, left: -15, bottom: 5 }}>
             <defs>
               <linearGradient id="ratingGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#38bdf8" stopOpacity={0.3} />
-                <stop offset="100%" stopColor="#38bdf8" stopOpacity={0} />
+                <stop offset="0%" stopColor="#00f0ff" stopOpacity={0.3} />
+                <stop offset="100%" stopColor="#00f0ff" stopOpacity={0} />
               </linearGradient>
             </defs>
             <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" />
@@ -71,13 +71,13 @@ export default function RatingChart({ ratingHistory }) {
             <Area
               type="monotone"
               dataKey="newRating"
-              stroke="#38bdf8"
+              stroke="#00f0ff"
               strokeWidth={2}
               fill="url(#ratingGradient)"
               dot={false}
               activeDot={{
                 r: 5,
-                fill: '#38bdf8',
+                fill: '#00f0ff',
                 stroke: '#0f0f0f',
                 strokeWidth: 2,
               }}

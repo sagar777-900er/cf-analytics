@@ -44,7 +44,7 @@ export default function HeadToHead({ dataUser1, dataUser2 }) {
     return (
       <div className="flex items-center justify-between py-3 border-b border-white/5 last:border-0 hover:bg-white/5 px-2 rounded-lg transition-colors">
         <div className="flex-1 text-center font-mono font-bold text-lg">
-          <span className={val1 !== null && val1 > val2 ? "text-[#38bdf8] glow-cyan" : "text-white"}>{val1 ?? 'N/A'}</span>
+          <span className={val1 !== null && val1 > val2 ? "text-[#00f0ff] glow-cyan" : "text-white"}>{val1 ?? 'N/A'}</span>
         </div>
         <div className="flex flex-col items-center justify-center px-4 w-32 shrink-0">
           <Icon className="w-4 h-4 text-slate-500 mb-1" />
@@ -74,7 +74,7 @@ export default function HeadToHead({ dataUser1, dataUser2 }) {
         <div className="glass-card p-6 flex flex-col justify-center">
           <div className="flex justify-between items-end mb-8 px-4">
             <div className="text-center flex-1">
-              <img src={u1.titlePhoto?.startsWith('//') ? `https:${u1.titlePhoto}` : u1.titlePhoto} alt={u1.handle} className="w-16 h-16 mx-auto rounded-xl object-cover border-2 border-[#38bdf8] mb-2 shadow-[0_0_15px_rgba(0,240,255,0.4)]" />
+              <img src={u1.titlePhoto?.startsWith('//') ? `https:${u1.titlePhoto}` : u1.titlePhoto} alt={u1.handle} className="w-16 h-16 mx-auto rounded-xl object-cover border-2 border-[#00f0ff] mb-2 shadow-[0_0_15px_rgba(0,240,255,0.4)]" />
               <h3 className="text-lg font-bold text-white truncate">{u1.handle}</h3>
             </div>
             <div className="mx-4 pb-2 text-2xl font-black text-slate-700 italic">VS</div>
@@ -106,7 +106,7 @@ export default function HeadToHead({ dataUser1, dataUser2 }) {
                   itemStyle={{ fontSize: '12px', fontWeight: 'bold' }}
                 />
                 <Legend iconType="circle" />
-                <Radar name={u1.handle} dataKey="user1Count" stroke="#38bdf8" fill="#38bdf8" fillOpacity={0.4} strokeWidth={2} />
+                <Radar name={u1.handle} dataKey="user1Count" stroke="#00f0ff" fill="#00f0ff" fillOpacity={0.4} strokeWidth={2} />
                 <Radar name={u2.handle} dataKey="user2Count" stroke="#a78bfa" fill="#a78bfa" fillOpacity={0.4} strokeWidth={2} />
               </RadarChart>
             </ResponsiveContainer>

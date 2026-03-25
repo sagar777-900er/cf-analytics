@@ -118,7 +118,7 @@ export default function UserStats({ userData, submissions }) {
         <button
           onClick={handleExport}
           disabled={isExporting}
-          className="export-btn shrink-0 flex items-center justify-center gap-2 px-4 py-2 bg-slate-800 hover:bg-[#38bdf8]/20 text-[#38bdf8] border border-[#38bdf8]/30 rounded-xl font-bold text-sm transition-all glow-cyan-border shadow-lg"
+          className="export-btn shrink-0 flex items-center justify-center gap-2 px-4 py-2 bg-slate-800 hover:bg-[#00f0ff]/20 text-[#00f0ff] border border-[#00f0ff]/30 rounded-xl font-bold text-sm transition-all glow-cyan-border shadow-lg"
         >
           {isExporting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
           <span className="hidden sm:inline">{isExporting ? 'Exporting...' : 'Share Profile'}</span>
@@ -131,7 +131,7 @@ export default function UserStats({ userData, submissions }) {
           icon={TrendingUp}
           label="Current Rating"
           value={userData.rating ?? 'Unrated'}
-          iconColor="#38bdf8"
+          iconColor="#00f0ff"
           delay={1}
         />
         <StatCard

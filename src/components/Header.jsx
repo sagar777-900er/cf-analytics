@@ -47,7 +47,7 @@ export default function Header({ onAnalyze, onAnalyzeH2H, loading, isH2HMode, se
                   value={handle1}
                   onChange={(e) => setHandle1(e.target.value)}
                   placeholder="Player 1..."
-                  className="w-full px-4 py-2 bg-slate-900/80 border border-white/10 rounded-l-xl text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-[#38bdf8] focus:ring-1 focus:ring-[#38bdf8] transition-all"
+                  className="w-full px-4 py-2 bg-slate-900/80 border border-white/10 rounded-l-xl text-sm text-white placeholder:text-slate-500 focus:outline-none focus:border-[#00f0ff] focus:ring-1 focus:ring-[#00f0ff] transition-all"
                 />
                 <span className="text-slate-500 font-black italic text-sm">VS</span>
                 <input

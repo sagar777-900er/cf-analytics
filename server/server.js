@@ -41,15 +41,23 @@ async function fetchCF(endpoint, cacheKey) {
   const cached = getCached(cacheKey);
   if (cached) return cached;
 
-  const res = await fetch(`https://codeforces.com/api/${endpoint}`);
-  const data = await res.json();
-
-  if (data.status === 'FAILED') {
-    throw new Error(data.comment || 'Codeforces API error');
+  try {
+    const res = await fetch(`https://codeforces.com/api/${endpoint}`);
+    const text = await res.text();
+    const data = JSON.parse(text);
+    
+    if (data.status === 'FAILED') {
+      throw new Error(data.comment || 'Codeforces API error');
+    }
+    
+    setCache(cacheKey, data.result);
+    return data.result;
+  } catch (err) {
+    if (err.name === 'SyntaxError') {
+      throw new Error('Codeforces API rate limited (Wait a few seconds)');
+    }
+    throw err;
   }
-
-  setCache(cacheKey, data.result);
-  return data.result;
 }
 
 // ─── Supabase Client (optional) ─────────────────────────────────────────────
