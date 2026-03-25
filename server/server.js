@@ -406,6 +406,15 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', supabase: !!supabase, cacheSize: cache.size });
 });
 
+// ─── Production Static Serving ───────────────────────────────────────────────
+if (process.env.NODE_ENV === 'production') {
+  const distPath = path.join(__dirname, '../dist');
+  app.use(express.static(distPath));
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(distPath, 'index.html'));
+  });
+}
+
 // ─── Start ───────────────────────────────────────────────────────────────────
 app.listen(PORT, () => {
   console.log(`🚀 CF Analytics API running on http://localhost:${PORT}`);
