@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Search, Zap, ExternalLink, Users } from 'lucide-react';
+import { Search, Zap, Users } from 'lucide-react';
 
 export default function Header({ onAnalyze, onAnalyzeH2H, loading, isH2HMode, setIsH2HMode }) {
   const [handle, setHandle] = useState('');
@@ -20,14 +20,14 @@ export default function Header({ onAnalyze, onAnalyzeH2H, loading, isH2HMode, se
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 gap-4">
           {/* Logo */}
-          <div className="flex items-center gap-2.5 shrink-0">
+          <a href="/" className="flex items-center gap-2.5 shrink-0 hover:opacity-80 transition-opacity cursor-pointer">
             <div className="w-8 h-8 rounded-lg bg-gradient flex items-center justify-center glow-purple">
               <Zap className="w-4 h-4 text-white" />
             </div>
             <span className="text-lg font-bold tracking-tight hidden sm:block text-white">
               CF <span className="text-slate-400 font-normal">Analytics</span>
             </span>
-          </div>
+          </a>
 
           {/* Search */}
           <form onSubmit={handleSubmit} className="flex-1 max-w-xl flex items-center gap-3">
@@ -86,15 +86,7 @@ export default function Header({ onAnalyze, onAnalyzeH2H, loading, isH2HMode, se
             )}
           </form>
 
-          {/* GitHub link */}
-          <a
-            href="https://github.com/sagar777-900er/cf-analytics"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-slate-500 hover:text-white transition-colors shrink-0"
-          >
-            <ExternalLink className="w-5 h-5" />
-          </a>
+
         </div>
       </div>
     </header>
