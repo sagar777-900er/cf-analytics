@@ -10,7 +10,8 @@ dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const LOCAL_DB_PATH = path.join(__dirname, 'watchlist.json');
+const isVercel = !!process.env.VERCEL;
+const LOCAL_DB_PATH = isVercel ? '/tmp/watchlist.json' : path.join(__dirname, 'watchlist.json');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -292,7 +293,11 @@ app.get('/api/problems', async (req, res) => {
 
 // Initialize local file DB if needed
 if (!supabase && !fs.existsSync(LOCAL_DB_PATH)) {
-  fs.writeFileSync(LOCAL_DB_PATH, JSON.stringify([]));
+  try {
+    fs.writeFileSync(LOCAL_DB_PATH, JSON.stringify([]));
+  } catch (err) {
+    console.warn('⚠️ Could not create local watchlist DB:', err.message);
+  }
 }
 
 function getLocalWatchlist() {
@@ -301,7 +306,11 @@ function getLocalWatchlist() {
 }
 
 function saveLocalWatchlist(data) {
-  fs.writeFileSync(LOCAL_DB_PATH, JSON.stringify(data, null, 2));
+  try {
+    fs.writeFileSync(LOCAL_DB_PATH, JSON.stringify(data, null, 2));
+  } catch (err) {
+    console.warn('⚠️ Could not save local watchlist DB:', err.message);
+  }
 }
 
 app.get('/api/watchlist', async (req, res) => {
