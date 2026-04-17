@@ -43,7 +43,9 @@ async function fetchCF(endpoint, cacheKey) {
   if (cached) return cached;
 
   try {
-    const res = await fetch(`https://codeforces.com/api/${endpoint}`);
+    const res = await fetch(`https://codeforces.com/api/${endpoint}`, {
+      signal: AbortSignal.timeout(8000)
+    });
     const text = await res.text();
     const data = JSON.parse(text);
     
@@ -54,6 +56,9 @@ async function fetchCF(endpoint, cacheKey) {
     setCache(cacheKey, data.result);
     return data.result;
   } catch (err) {
+    if (err.name === 'TimeoutError' || err.name === 'AbortError') {
+      throw new Error('Codeforces API timed out. Try again in a moment.');
+    }
     if (err.name === 'SyntaxError') {
       throw new Error('Codeforces API rate limited (Wait a few seconds)');
     }
